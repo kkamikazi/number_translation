@@ -42,4 +42,10 @@ class TranslateControllerTest < ActionDispatch::IntegrationTest
     result = JSON.parse(@response.body)
     assert_equal result["extenso"], "menos setenta e nove"
   end
+
+  test "translate -100" do
+    get "/-100"
+    result = JSON.parse(@response.body)
+    assert_equal result["extenso"], "menos cem"
+  end
 end

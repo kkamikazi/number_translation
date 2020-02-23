@@ -54,6 +54,8 @@ class TranslateController < ApplicationController
             else
               res += "#{TENS[n-v]} e #{translate(v)}"
             end
+        when 100
+            res += "cem"
         end
     end
 end
