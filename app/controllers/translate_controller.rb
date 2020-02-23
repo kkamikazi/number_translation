@@ -13,15 +13,17 @@ class TranslateController < ApplicationController
     }
 
     def show
-        render json: { extenso: translate(params[:number].to_i) }
+        render json: { extenso: translate(params[:number]) }
     end
 
     private
     def translate(number)
-        res = ""
-        case number
+        n = number.to_i.abs
+        res = (number.to_i < 0) ? "menos " : ""
+
+        case n
         when 0..9
-            res = UNIT[number]
+            res += UNIT[n]
         end    
     end
 end
