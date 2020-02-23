@@ -12,6 +12,27 @@ class TranslateController < ApplicationController
         9 => "nove",
     }
 
+    TENS = {
+        10 => "dez",
+        11 => "onze",
+        12 => "doze",
+        13 => "treze",
+        14 => "quatorze",
+        15 => "quinze",
+        16 => "dezesseis",
+        17 => "dezessete",
+        18 => "dezoito",
+        19 => "dezenove",
+        20 => "vinte",
+        30 => "trinta",
+        40 => "quarenta",
+        50 => "cinquenta",
+        60 => "sessenta",
+        70 => "setenta",
+        80 => "oitenta",
+        90 => "noventa"  
+    }
+
     def show
         render json: { extenso: translate(params[:number]) }
     end
@@ -24,6 +45,15 @@ class TranslateController < ApplicationController
         case n
         when 0..9
             res += UNIT[n]
-        end    
+        when 10..19
+            res += TENS[n]
+        when 20..99
+            v = n % 10
+            if v == 0
+              res += TENS[n]
+            else
+              res += "#{TENS[n-v]} e #{translate(v)}"
+            end
+        end
     end
 end
