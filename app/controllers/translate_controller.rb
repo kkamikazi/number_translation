@@ -33,6 +33,18 @@ class TranslateController < ApplicationController
         90 => "noventa"  
     }
 
+    HUNDREDS = {
+        100 => "cento",
+        200 => "duzentos",
+        300 => "trezentos",
+        400 => "quatrocentos",
+        500 => "quinhentos",
+        600 => "seiscentos",
+        700 => "setecentos",
+        800 => "oitocentos",
+        900 => "novecentos"
+    }
+
     def show
         render json: { extenso: translate(params[:number]) }
     end
@@ -56,6 +68,13 @@ class TranslateController < ApplicationController
             end
         when 100
             res += "cem"
+        when 101..999
+            v = n % 100
+            if v == 0
+              res += HUNDREDS[n]
+            else
+              res += "#{HUNDREDS[n-v]} e #{translate(v)}"
+            end
         end
     end
 end
