@@ -71,4 +71,22 @@ class TranslateControllerTest < ActionDispatch::IntegrationTest
     result = JSON.parse(@response.body)
     assert_equal "novecentos e dezoito", result["extenso"]
   end
+
+  test "translate 1000" do
+    get "/1000"
+    result = JSON.parse(@response.body)
+    assert_equal "mil", result["extenso"]
+  end
+
+  test "translate -79001" do
+    get "/-79001"
+    result = JSON.parse(@response.body)
+    assert_equal "menos setenta e nove mil e um", result["extenso"]
+  end
+
+  test "translate 94587" do
+    get "/94587"
+    result = JSON.parse(@response.body)
+    assert_equal "noventa e quatro mil e quinhentos e oitenta e sete", result["extenso"]
+  end
 end

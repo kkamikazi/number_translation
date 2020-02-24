@@ -77,6 +77,10 @@ class TranslateController < ApplicationController
             else
               res += "#{HUNDREDS[n-v]} e #{translate(v)}"
             end
+        else
+            m = n / 1000
+            c = n % 1000
+            res += "#{m == 1 ? "" : "#{translate(m)} "}mil#{ c == 0 ? "" : " e #{translate(c)}" }"
         end
     end
 end
