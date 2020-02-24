@@ -1,11 +1,6 @@
 require 'test_helper'
 
 class TranslateControllerTest < ActionDispatch::IntegrationTest
-  test "translation error: value out of bounds" do
-    get "/100000"
-    assert_response 400
-  end
-
   test "translate 0" do
     get "/0"
     result = JSON.parse(@response.body)
@@ -88,5 +83,16 @@ class TranslateControllerTest < ActionDispatch::IntegrationTest
     get "/94587"
     result = JSON.parse(@response.body)
     assert_equal "noventa e quatro mil e quinhentos e oitenta e sete", result["extenso"]
+  end
+
+  # Error handling tests
+  test "translation error: value out of bounds" do
+    get "/100000"
+    assert_response 422
+  end
+
+  test "translation error: value is invalid" do
+    get "/string"
+    assert_response 400
   end
 end

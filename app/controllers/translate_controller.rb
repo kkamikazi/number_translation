@@ -46,9 +46,14 @@ class TranslateController < ApplicationController
     }
 
     def show
-        return render json: { error: "Número fora do intervalo aceito" }, status: 400 if params[:number].to_i.abs > 99999
-        
-        render json: { extenso: translate(params[:number]) }
+        if params[:number] != "0" && params[:number].to_i == 0
+            # Casting as int result in 0 if the string is NaN
+            render json: { error: "Entrada Inválida. Você deve fornecer um número inteiro no intervalo [-99999, 99999]" }, status: 400
+        elsif params[:number].to_i.abs > 99999
+            render json: { error: "Número fora do intervalo aceito [-99999, 99999]" }, status: 422
+        else
+            render json: { extenso: translate(params[:number]) }
+        end        
     end
 
     private
