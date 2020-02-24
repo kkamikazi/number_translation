@@ -1,24 +1,17 @@
-# README
+# Numbers to Portuguese
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The purpose of this project is to translate a given number into Portuguese, from -99999 to 99999.
 
-Things you may want to cover:
+## For local run
 
-* Ruby version
+* You must install Ruby version 2.7.0
 
-* System dependencies
+* Clone this repository
 
-* Configuration
+* run `bundle install` for dependencies install
 
-* Database creation
+* run `rails start` to start a local server
 
-* Database initialization
+## Run test suite
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* run `rails test` to run tests
