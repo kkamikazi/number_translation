@@ -44,15 +44,25 @@ class TranslateController < ApplicationController
         800 => "oitocentos",
         900 => "novecentos"
     }
+    
+    FB_URL = "https://number-translate.firebaseio.com"
 
-    def show
+    def initialize
+        private_key_json_string = File.open('config/number-translate-firebase-adminsdk-n7oou-153245b0e2.json').read
+        @firebase = Firebase::Client.new(FB_URL, private_key_json_string)
+    end
+    
+    def show        
         if params[:number] != "0" && params[:number].to_i == 0
             # Casting as int result in 0 if the string is NaN
             render json: { error: "Entrada Inválida. Você deve fornecer um número inteiro no intervalo [-99999, 99999]" }, status: 400
+            @firebase.push("translation", { :type => 'error', :cause => 'invalid entry', :value => params[:number], :created => DateTime.now.strftime("%e/%m/%Y %H:%M:%S") })
         elsif params[:number].to_i.abs > 99999
             render json: { error: "Número fora do intervalo aceito [-99999, 99999]" }, status: 422
+            @firebase.push("translation", { :type => 'error', :cause => 'out of bounds', :value => params[:number], :created => DateTime.now.strftime("%e/%m/%Y %H:%M:%S") })
         else
             render json: { extenso: translate(params[:number]) }
+            @firebase.push("translation", { :type => 'success', :value => params[:number], :created => DateTime.now.strftime("%e/%m/%Y %H:%M:%S") })
         end        
     end
 
