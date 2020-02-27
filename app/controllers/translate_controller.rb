@@ -48,7 +48,8 @@ class TranslateController < ApplicationController
     FB_URL = "https://number-translate.firebaseio.com"
 
     def initialize
-        private_key_json_string = File.open('config/number-translate-firebase-adminsdk-n7oou-153245b0e2.json').read
+        file = 'config/number-translate-firebase-adminsdk-n7oou-153245b0e2.json'
+        private_key_json_string = File.open(file).read if File.exist?(file)
         @firebase = Firebase::Client.new(FB_URL, private_key_json_string)
     end
     
